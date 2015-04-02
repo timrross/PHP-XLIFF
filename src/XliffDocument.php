@@ -278,87 +278,70 @@ class XliffNode{
 			}
 		}
 		return $node;
-		
-	}
-	
 
-	
-} 
+	}
+
+
+
+}
 
 /**
- * Wrapper class for Xliff documents. 
+ * Wrapper class for Xliff documents.
  * Externally, you'll want to use this class.
- * 
- * @method XliffFile file() file()
+ *
+ * @method Xliff_Document file() file()
  */
-class XliffDocument extends XliffNode{
+class Xliff_Document extends Xliff_Node {
+	const XMLNS = 'urn:oasis:names:tc:xliff:document:';
+	const XLIFF_VER = '2.0';
+
+	protected $name = 'xliff';
+	protected $supported_containers = array( 'file' => 'Xliff_File' );
+	protected $version;
+
+
+	function __construct(){
+		parent::__construct();
+		$this->version = XLIFF_VER;
+	}
+
+
 	/**
-     * uncomplete xliff Namespace
-     */
-    const NS = 'urn:oasis:names:tc:xliff:document:';
-    
-    protected $name = 'xliff';
-    protected $supportedContainers = array(
-    	'files' => 'XliffFile',
-    );
-    
-    
-    protected $version;
-    
-    
-    function __construct(){
-    	parent::__construct();
-    	$this->version = '1.2';
-        
-    }
-    
-   
-    /**
-     * Convert this XliffDocument to DOMDocument
-     * @return DOMDocument
-     */
-    public function toDOM(){
-    	// create the new document
-    	$doc = new DOMDocument();
+	 * Convert in memory XLIFF representation to DOM representation
+	 * @return DOMDocument
+	 */
+	public function to_DOM(){
+		$dom = new DOMDocument();
+		$doc->formatOutput = true;
 
-        // create the xliff root element
-        $xliff = $this->toDOMElement($doc);
+		// create the root xliff element w/all children
+		$xliff_dom_element = $this->to_DOM_element( $dom );
 
-        $xliff->setAttribute('xmlns', self::NS . $this->version);
-        // add the xliff version
-        $xliff->setAttribute('version',$this->version);
+		// set some attributes on the xliff element
+		$xliff_dom_element->setAttribute( 'xmlns', self::XMLNS . $this->version );
+		$xliff_dom_element->setAttribute( 'version', $this->version );
+		$xliff_dom_element->setAttribute( 'version', $this->version );
 
-        $doc->appendChild($xliff);
-        return $doc;
-        
-    }
-    
-    /**
-     * Build XliffDocument from DOMDocument
-     *  
-     * @param DOMDocument $doc
-     * @throws Exception
-     * @return XliffDocument
-     */
-    public static function fromDOM(DOMDocument $doc){
-    	if (!($doc->firstChild &&  $doc->firstChild->tagName=='xliff'))
-    		throw new Exception("Not an XLIFF document");
-    		
-    	
-    	$xlfDoc = $doc->firstChild;
-    	/* @var $xlfDoc DOMElement */
-    	
-    	$ver = $xlfDoc->getAttribute('version') ? $xlfDoc->getAttribute('version') : '1.2';
-    	
-    	$xliffNamespace = $xlfDoc->namespaceURI;
-    	 
-    	$element = self::fromDOMElement($xlfDoc);
-    	
-    	return $element;
-    }
-    
-   
-    
+		// append the whole enchilada to the DOM
+		$dom->appendChild( $xliff );
+
+		return $dom;
+
+	}
+
+	/**
+	 * Build XliffDocument from DOMDocument
+	 *
+	 * @param DOMDocument $doc
+	 * @throws Exception
+	 * @return XliffDocument
+	 */
+	public static function from_DOM_XML( DOMDocument $dom ) {
+		if ( ! isset( $dom->documentElement ) || $dom->documentElement->tagName !== 'xliff' ) ) {
+			throw new Exception( "Not an XLIFF document" );
+		}
+		return self::fromDOMElement( $dom->documentElement );
+	}
 }
 
 
