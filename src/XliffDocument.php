@@ -1,7 +1,4 @@
 <?php
-/**
- * @author Oren Yagev <oyagev@gmail.com>
- */
 
 /**
  * Parent class for nodes in the xliff document
