@@ -290,7 +290,7 @@ class Xliff_Document extends Xliff_Node {
 
 	function __construct(){
 		parent::__construct();
-		$this->version = XLIFF_VER;
+		$this->version = self::XLIFF_VER;
 		$this->srcLang = 'en-US';
 	}
 
