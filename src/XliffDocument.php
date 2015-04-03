@@ -66,12 +66,10 @@ class Xliff_Node{
 	 */
 	protected $tag_name = '';
 
-	function __construct( $tag_name ){
-		if ( ! is_string( $tag_name ) ) {
-			return false;
+	function __construct( $tag_name = null ) {
+		if ( is_string( $tag_name ) ) {
+			$this->set_tag_name( $tag_name );
 		}
-
-		$this->set_tag_name( $tag_name );
 
 		foreach( $this->supported_containers as $name => $class ) {
 			$this->containers[$name] = array();
