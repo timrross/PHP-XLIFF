@@ -5,12 +5,12 @@ This library help in the process of creating and navigating within an XLIFF docu
 ## Usage Example ##
 
 	<?php
-	
+
 	require_once '../src/XliffDocument.php';
-	
+
 	echo "Generating new XLIFF document:" . PHP_EOL;
 	$xliff = new XliffDocument();
-	
+
 	$xliff
 		//create a new file element
 		->file(TRUE)
@@ -22,7 +22,7 @@ This library help in the process of creating and navigating within an XLIFF docu
 					->source(TRUE)
 						->setTextContent("text 1")
 						->setAttribute('xml:lang', 'en');
-		
+
 	$xliff
 		//use same file element as before
 		->file()
@@ -34,7 +34,7 @@ This library help in the process of creating and navigating within an XLIFF docu
 					->target(TRUE)
 						->setTextContent("1 txet")
 						->setAttribute('xml:lang', 'fr');
-		
+
 	$xliff
 		->file()
 			->body()
@@ -49,11 +49,11 @@ This library help in the process of creating and navigating within an XLIFF docu
 					->target(TRUE)
 						->setTextContent("world hello")
 						->setAttribute('xml:lang', 'fr');
-	
-	
+
+
 	$dom = $xliff->toDOM();
 	echo $dom->saveXML();
-	
+
 	echo '=============================================='.PHP_EOL;
 	echo "Generating DOM from XLIFF document and back:" . PHP_EOL;
 	$xliff2 = XliffDocument::fromDOM($dom);
