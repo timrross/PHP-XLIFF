@@ -34,32 +34,32 @@ class Xliff_Node{
 	 * @var Array[tag-name][0..n]=XliffNode
 	 */
 	protected $containers = array();
-	
+
 	/**
-	 * Indicate which child nodes are supported 
+	 * Indicate which child nodes are supported
 	 * @var Array[tag-name]=>Xliff Class
 	 */
-	protected $supportedContainers = array();
-	
+	protected $supported_containers = array();
+
 	/**
-	 * Holds child nodes that can be presented only once inside this node. 
+	 * Holds child nodes that can be presented only once inside this node.
 	 * For example, "trans-unit" element can have only one "source" node
 	 * @var Array[tag-name]=XliffNode
 	 */
-	protected $nodes = array();
-	
+	protected $leaf_nodes = array();
+
 	/**
-	 * Indicate which child nodes are supported 
+	 * Indicate which child nodes are supported
 	 * @var Array[tag-name]=>Xliff Class
 	 */
-	protected $supportedNodes = array();
-	
+	protected $supported_leaf_nodes = array();
+
 	/**
 	 * Node's text, NULL if none
 	 * @var String|NULL
 	 */
-	protected $textContent=NULL;
-	
+	protected $text_content;
+
 	/**
 	 * Node's tag name
 	 * @var string
