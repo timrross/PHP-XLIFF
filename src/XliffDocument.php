@@ -127,7 +127,7 @@ class Xliff_Node{
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * @return Ambigous <string, NULL>
 	 */
@@ -163,13 +163,13 @@ class Xliff_Node{
 		}
 		return $this;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Allow calling $node->tag_name($new=FALSE)
 	 * Supports the following methods:
-	 * 
+	 *
 	 * 1. $node->tag_name(TRUE) - create a new node for "tag_name" and return the new node
 	 * 2. $node->tag_name() - fetch the last added node for "tag_name", FALSE if none
 	 *
@@ -200,21 +200,21 @@ class Xliff_Node{
 			}
 			if (empty($this->containers[$pluralName])) return FALSE;
 			return end($this->containers[$pluralName]);
-			
+
 		}elseif(!empty($this->supportedNodes[$name])){
-			
+
 			//Create new node if explicitly required
 			if ($append){
 				$cls = $this->supportedNodes[$name];
 				$this->nodes[$name] = new $cls();
 				$this->nodes[$name]->setName($name);
 			}
-			
+
 			return (!empty($this->nodes[$name])) ? $this->nodes[$name] : FALSE;
 		}
 		throw new Exception(sprintf("'%s' is not supported for '%s'",$name,get_class($this)));
 	}
-	
+
 	/**
 	 * Export this node to a DOM object
 	 * @param DOMDocument $doc - parent DOMDocument must be provided
