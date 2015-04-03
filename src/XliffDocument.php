@@ -131,7 +131,7 @@ class Xliff_Node{
 	 * @return Ambigous <string, NULL>
 	 */
 	public function get_text_content() {
-		return $this->text_content;
+		return isset( $this->text_content ) ? $this->text_content : false;
 	}
 
 	/**
