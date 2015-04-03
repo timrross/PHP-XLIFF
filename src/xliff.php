@@ -286,11 +286,15 @@ class Xliff_Document extends Xliff_Node {
 	function __construct(){
 		parent::__construct();
 		$this->version = self::XLIFF_VER;
-		$this->srcLang = 'en-US';
 	}
 
-	public function set_lang_tag( $locale, $lang_tag_type = 'trgLang' ) {
-		$this->$lang_tag_type = $locale;
+	public function set_source_locale( $locale ) {
+		$this->srcLang = $locale;
+		return $this;
+	}
+
+	public function set_target_locale( $locale ) {
+		$this->trgLang = $locale;
 		return $this;
 	}
 
