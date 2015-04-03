@@ -280,10 +280,12 @@ class Xliff_Document extends Xliff_Node {
 	const XLIFF_VER = '2.0';
 
 	protected $tag_name = 'xliff';
-	protected $supported_containers = array( 'file' => 'Xliff_File' );
 	protected $version;
 	protected $srcLang;
 	protected $trgLang;
+	protected $supported_containers = array(
+		'file' => 'Xliff_File'
+	);
 
 
 	function __construct(){
