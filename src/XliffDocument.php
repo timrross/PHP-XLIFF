@@ -78,7 +78,7 @@ class Xliff_Node{
 	 * @return string
 	 */
 	public function get_tag_name() {
-		return $this->tag_name;
+		return isset( $this->tag_name ) ? $this->tag_name : false;
 	}
 
 	/**
