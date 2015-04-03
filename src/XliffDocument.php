@@ -172,43 +172,27 @@ class Xliff_Node{
 	 * //On the following, notice that tag names are in plural formation...
 	 * 3. $node->tag_names() - return an array of tag_name nodes
 	 */
-	function __call($name, $args){
-		$append = (!empty($args) && $args[0]==TRUE);
-		$mapNames = array(
-			'/^unit/' => 'trans-unit'			
-		);
-		//re-map short names to actual tag names, for convenience 
-		$name = preg_replace(array_keys($mapNames), array_values($mapNames), $name);
-		
-		//plural ? 
-		if (!empty($this->supportedContainers[$name]) ){
-			return $this->containers[$name];
-		}elseif(!empty($this->supportedContainers[$name.'s'])){
-			$pluralName= $name.'s';
-			
-			//Create new instance if explicitly specified by argument
-			if ( $append ){
-				
-				$cls = $this->supportedContainers[$pluralName];
-				
-				$this->containers[$pluralName][] = new $cls();
-				
+	function __call( $tag_name, $args ) {
+		$append = is_array( $args ) && $args[0] === true ? true : false;
+
+		//re-map short names to actual tag names, for convenience
+		// $name = preg_replace( array_keys( $mapNames ), array_values( $mapNames ), $name );
+
+		if ( ! empty( $this->supported_containers[$tag_name] ) ) {
+			if ( $append ) {
+				$class = $this->supported_containers[$tag_name];
+				$this->containers[$tag_name][] = new $class();
 			}
-			if (empty($this->containers[$pluralName])) return FALSE;
-			return end($this->containers[$pluralName]);
-
-		}elseif(!empty($this->supportedNodes[$name])){
-
-			//Create new node if explicitly required
+			return $this->containers[$tag_name];
+		} elseif ( ! empty( $this->supported_leaf_nodes[$tag_name] ) ) {
 			if ($append){
-				$cls = $this->supportedNodes[$name];
-				$this->nodes[$name] = new $cls();
-				$this->nodes[$name]->setName($name);
+				$class = $this->supported_leaf_nodes[$tag_name];
+				$this->leaf_nodes[$tag_name] = new $class();
+				$this->leaf_nodes[$tag_name]->set_tag_name( $tag_name );
 			}
-
-			return (!empty($this->nodes[$name])) ? $this->nodes[$name] : FALSE;
+			return ! empty( $this->leaf_nodes[$tag_name] ) ? $this->leaf_nodes[$tag_name] : false;
 		}
-		throw new Exception(sprintf("'%s' is not supported for '%s'",$name,get_class($this)));
+		throw new Exception( get_class( $this ) . ' does not support ' . $tag_name . ' elements.' );
 	}
 
 	/**
