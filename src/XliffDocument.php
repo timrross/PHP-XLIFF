@@ -333,7 +333,7 @@ class Xliff_Document extends Xliff_Node {
 	 * @throws Exception
 	 * @return XliffDocument
 	 */
-	public static function from_DOM_XML( DOMDocument $dom ) {
+	public static function from_DOM( DOMDocument $dom ) {
 		if ( ! isset( $dom->documentElement ) || $dom->documentElement->tagName !== 'xliff' ) ) {
 			throw new Exception( "Not an XLIFF document" );
 		}
