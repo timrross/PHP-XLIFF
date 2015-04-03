@@ -148,15 +148,14 @@ class Xliff_Node{
 	 * @param XliffNode $node - node to append
 	 * @return XliffNode - this node
 	 */
-	public function appendNode(XliffNode $node){
-		
-		//Automatically detect where to append this node
-		if (!empty($this->supportedContainers[$node->getName().'s'])){
-			$this->containers[$node->getName().'s'][] = $node;
-		}elseif(!empty($this->supportedNodes[$node->getName()])){
-			$this->nodes[$node->getName()] = $node;
-		}else{
-			$this->nodes[$node->getName()] = $node;
+	public function append_node( Xliff_Node $node ) {
+		$tag_name = $node->get_tag_name();
+		if ( isset( $this->supported_containers[$tag_name] ) ) {
+			$this->containers[$tag_name][] = $node;
+		} elseif ( isset( $this->supported_leaf_nodes[$tag_name] ) ) {
+			$this->leaf_nodes[$tag_name] = $node;
+		} else {
+			return false;
 		}
 		return $this;
 	}
