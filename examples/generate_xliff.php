@@ -1,70 +1,30 @@
 <?php
+/*
+ * Welcome to the wild and wooly world of XLIFF-based data transformation!
+ *
+ * Good luck.
+ *
+ */
 
-require_once '../src/XliffDocument.php';
+require dirname( __DIR__ ) . '/src/xliff.php';
 
-echo "Generating new XLIFF document:" . PHP_EOL;
-$xliff = new XliffDocument();
+echo 'Generating new XLIFF document:' . PHP_EOL;
 
-$xliff
-	//create a new file element
-	->file(TRUE)
-		//create a new body element
-		->body(TRUE)
-			//create a new trans-unit element
-			->unit(TRUE)
-				//create a new source element
-				->source(TRUE)
-					->setTextContent("text 1")
-					->setAttribute('xml:lang', 'en');
-	
-$xliff
-	//use same file element as before
-	->file()
-		//use same body element as before
-		->body()
-			//use same trans-unit element as before
-			->unit()
-				//create a new target element
-				->target(TRUE)
-					->setTextContent("1 txet")
-					->setAttribute('xml:lang', 'fr');
-	
-$xliff
-	->file()
-		->body()
-			->unit(TRUE)
-				->source(TRUE)
-					->setTextContent("Hello world")
-					->setAttribute('xml:lang', 'en');
-$xliff
-	->file()
-		->body()
-			->unit()
-				->target(TRUE)
-					->setTextContent("world hello")
-					->setAttribute('xml:lang', 'fr');
+// create a new top level xliff document element
+$xliff = new Xliff_Document();
 
-//Add some custom tags which are not officially supported
-$alt = new XliffNode();
-$alt->setName('alt-trans');
-$target2 = new XliffNode();
-$target2->setName('target')->setTextContent("world hello 0")->setAttribute('xml:lang', 'fr');
-$alt->appendNode($target2);
+// set source and target locale ("lang") attributes
+$xliff->set_source_locale( 'en_US' );
+$xliff->set_target_locale( 'id_ID' );
 
-$xliff->file()->body()->unit()->appendNode($alt);
+// create child file, unit, segment, and source elements and set text in the source element
+$xliff->file(true)->unit(true)->segment(true)->source(true)->set_text_content( 'Hello world!' );
 
-$dom = $xliff->toDOM();
-$xml = $dom->saveXML();
+// reuse the same file, unit, segments but add a new target element; set text in the target element
+$xliff->file()->unit()->segment()->target(true)->set_text_content( 'Hola mundo!' );
 
-echo $xml;
+// convert to XML
+$dom = $xliff->to_DOM();
+$xml = $dom->saveXML( $dom->documentElement );
 
-echo '=============================================='.PHP_EOL;
-echo "Generating DOM from XLIFF document and back:" . PHP_EOL;
-$dom2 = new DOMDocument();
-$dom2->loadXML($xml);
-$xliff2 = XliffDocument::fromDOM($dom2);
-
-//var_dump($xliff2);
-echo $xliff2->toDOM()->saveXML();
-
-
+echo $xml . PHP_EOL;
