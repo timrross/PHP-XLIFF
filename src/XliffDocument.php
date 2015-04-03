@@ -1,31 +1,35 @@
 <?php
 
 /**
- * Parent class for nodes in the xliff document
+ * Parent class for nodes in the XLIFF document
  */
-class XliffNode{
-	
-	//Map tag names to classes
-	static protected $mapNameToClass = array(
-		'xliff'		=> 'XliffDocument',
-		'file'		=> 'XliffFile',
-		'body'		=> 'XliffFileBody',
-		'header'	=> 'XliffFileHeader',
-		'group'		=> 'XliffUnitsGroup',
-		'trans-unit'=> 'XliffUnit',
-		'source'	=> 'XliffNode',
-		'target'	=> 'XliffNode',
+class Xliff_Node{
+
+	protected $tag_name_to_class_mapping = array(
+		'xliff'         => 'Xliff_Document',
+		'file'          => 'Xliff_File',
+		'skeleton'      => 'Xliff_Skeleton',
+		'group'         => 'Xliff_Group',
+		'unit'          => 'Xliff_Unit',
+		'segment'       => 'Xliff_Segment',
+		'ignorable'     => 'Xliff_Ignorable',
+		'notes'         => 'Xliff_Notes',
+		'note'          => 'Xliff_Note',
+		'originalData'  => 'Xliff_originalData',
+		'data'          => 'Xliff_Data',
+		'source'        => 'Xliff_Node',
+		'target'	    => 'Xliff_Node',
 	);
-	
-	
+
+
 	/**
 	 * Holds element's attributes
-	 * @var Array 
+	 * @var Array
 	 */
 	protected $attributes = array();
-	
+
 	/**
-	 * Holds child nodes that can be repeated inside this node. 
+	 * Holds child nodes that can be repeated inside this node.
 	 * For example, an xliff document can have multiple "file" nodes
 	 * @var Array[tag-name][0..n]=XliffNode
 	 */
