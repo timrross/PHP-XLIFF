@@ -77,30 +77,29 @@ class Xliff_Node{
 	/**
 	 * @return string
 	 */
-	public function getName()
-	{
-	    return $this->name;
+	public function get_tag_name() {
+		return $this->tag_name;
 	}
 
 	/**
-	 * @param string $name
+	 * @param string $tag_name
 	 * @return XliffNode
 	 */
-	public function setName($name)
-	{
-	    $this->name = $name;
-	    return $this;
+	public function set_tag_name( $tag_name ) {
+		$this->tag_name = $tag_name;
+		return $this;
 	}
-	
-	
+
+
 	/**
 	 * Returns the attribute value, FALSE if attribute missing
 	 * @param string $name
-	 * @return Ambigous <boolean, string> - 
+	 * @return Ambigous <boolean, string> -
 	 */
-	function getAttribute($name){
-		return (isset($this->attributes[$name])) ? $this->attributes[$name] : FALSE;
+	function get_attribute( $attribute_name ) {
+		return isset( $this->attributes[$attribute_name] ) ? $this->attributes[$attribute_name] : false;
 	}
+
 	/**
 	 * Sets an attribute
 	 * @param string $name
@@ -121,9 +120,9 @@ class Xliff_Node{
 	 * @param Array $attr_array
 	 * @return XliffNode
 	 */
-	function setAttributes($attr_array){
-		foreach($attr_array as $key=>$val){
-			$this->setAttribute($key, $val);
+	function set_attributes( $attribute_array ) {
+		foreach( $attribute_array as $key => $value ) {
+			$this->set_attribute( $key, $value );
 		}
 		return $this;
 	}
@@ -131,21 +130,19 @@ class Xliff_Node{
 	/**
 	 * @return Ambigous <string, NULL>
 	 */
-	public function getTextContent()
-	{
-	    return $this->textContent;
+	public function get_text_content() {
+		return $this->text_content;
 	}
 
 	/**
 	 * @param string $textContent
 	 * @return XliffNode
 	 */
-	public function setTextContent($textContent)
-	{
-	    $this->textContent = $textContent;
-	    return $this;
+	public function set_text_content( $text_content ) {
+		$this->text_content = $text_content;
+		return $this;
 	}
-	
+
 	/**
 	 * Append a new node to this element
 	 * @param XliffNode $node - node to append
