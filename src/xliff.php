@@ -245,7 +245,6 @@ class Xliff_Node{
 			$class = self::$tag_name_to_class_mapping[$element->tagName];
 		} else {
 			$class = 'Xliff_Node';
-			//throw new Exception(sprintf("Tag name '%s' is unsupported",$name));
 		}
 
 		$xliff_node = new $class( $element->tagName );
