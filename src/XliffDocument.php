@@ -73,7 +73,7 @@ class Xliff_Node{
 			$this->containers[$name] = array();
 		}
 	}
-	
+
 	/**
 	 * @return string
 	 */
