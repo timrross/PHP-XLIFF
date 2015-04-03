@@ -205,7 +205,7 @@ class Xliff_Node{
 	 * @return DOMElement
 	 */
 	function to_DOM_element( DOMDocument $dom ){
-		$element = $dom->createElement( $this->get_name() );
+		$element = $dom->createElement( $this->get_tag_name() );
 
 		// set attributes on the new element
 		foreach ( $this->attributes as $name => $value ) {
