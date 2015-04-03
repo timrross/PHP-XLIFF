@@ -180,9 +180,9 @@ class Xliff_Node{
 		if ( ! empty( $this->supported_containers[$tag_name] ) ) {
 			if ( $append ) {
 				$class = $this->supported_containers[$tag_name];
-				$this->containers[$tag_name][] = new $class();
+				$this->containers[$tag_name][] = new $class( $tag_name );
 			}
-			return $this->containers[$tag_name];
+			return end( $this->containers[$tag_name] );
 		} elseif ( ! empty( $this->supported_leaf_nodes[$tag_name] ) ) {
 			if ($append){
 				$class = $this->supported_leaf_nodes[$tag_name];
