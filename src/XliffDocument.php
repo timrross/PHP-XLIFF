@@ -216,70 +216,71 @@ class Xliff_Node{
 	 * @param DOMDocument $doc - parent DOMDocument must be provided
 	 * @return DOMElement
 	 */
-	function toDOMElement(DOMDocument $doc){
-		$element = $doc->createElement($this->getName());
-		foreach($this->attributes as $name=>$value){
-			$element->setAttribute($name, $value);
+	function to_DOM_element( DOMDocument $dom ){
+		$element = $dom->createElement( $this->get_name() );
+
+		// set attributes on the new element
+		foreach ( $this->attributes as $name => $value ) {
+			$element->setAttribute( $name, $value );
 		}
-		foreach($this->containers as $container){
-			foreach($container as $node){
-				$element->appendChild($node->toDOMElement($doc));
+
+		foreach ( $this->containers as $container ){
+			foreach ( $container as $node ) {
+				$element->appendChild( $node->to_DOM_element( $dom ) );
 			}
 		}
-		foreach($this->nodes as $node){
-			$element->appendChild($node->toDOMElement($doc));
+
+		foreach ( $this->leaf_nodes as $node ) {
+			$element->appendChild( $node->to_DOM_element( $dom ) );
 		}
-		if ($text = $this->getTextContent()){
-			$textNode = $doc->createTextNode($text);
-			$element->appendChild($textNode);
+
+		$text = $this->get_text_content()
+		if ( is_string( $text ) ) {
+			$text_node = $dom->createTextNode( $text );
+			$element->appendChild( $text_node );
 		}
+
 		return $element;
 	}
-	
+
 	/**
-	 * Convert DOM element to XliffNode structure 
+	 * Convert DOM element to Xliff_Node structure
 	 * @param DOMNode $element
 	 * @throws Exception
-	 * @return string|XliffNode
+	 * @return string|Xliff_Node
 	 */
-	public static function fromDOMElement(DOMNode $element){
-		if ($element instanceOf DOMText){
+	public static function from_DOM_element( DOMNode $element ){
+		if ( $element instanceof DOMText ){
 			return $element->nodeValue;
-		}else{
-			$name = $element->tagName;
-			
-			//check if tag is supported
-			if (empty(self::$mapNameToClass[$element->tagName])){
-				$cls = 'XliffNode';
-				//throw new Exception(sprintf("Tag name '%s' is unsupported",$name));
-			}else{
-				//Create the XliffNode object (concrete object)
-				$cls = self::$mapNameToClass[$element->tagName];
-			}
-			$node = new $cls($element->tagName);
-			/* @var $node XliffNode */
-			
-			//Import attributes
-			foreach ($element->attributes as $attrNode){
-				$node->setAttribute($attrNode->nodeName, $attrNode->nodeValue);
-			}
-			
-			//Continue to nested nodes
-			foreach($element->childNodes as $child){
-				$res = self::fromDOMElement($child);
-				if (is_string($res)){
-					$node->setTextContent($res);
-				}else{
-					$node->appendNode($res);
-				}
+		}
+
+		// check if tag is supported
+		if ( self::$tag_name_to_class_mapping[$element->tagName] ) {
+			$class = self::$tag_name_to_class_mapping[$element->tagName];
+		} else {
+			$class = 'Xliff_Node';
+			//throw new Exception(sprintf("Tag name '%s' is unsupported",$name));
+		}
+
+		$xliff_node = new $class( $element->tagName );
+
+		// import attributes
+		foreach ( $element->attributes as $attrNode ) {
+			$xliff_node->set_attribute( $attrNode->nodeName, $attrNode->nodeValue );
+		}
+
+		// continue to nested nodes
+		foreach ( $element->childNodes as $child ) {
+			$result = self::from_DOM_Element( $child );
+			if ( is_string( $result ) ) {
+				$xliff_node->set_text_content( $result );
+			} else {
+				$xliff_node->append_node( $result );
 			}
 		}
-		return $node;
 
+		return $xliff_node;
 	}
-
-
-
 }
 
 /**
