@@ -179,9 +179,6 @@ class Xliff_Node{
 	function __call( $tag_name, $args ) {
 		$append = is_array( $args ) && $args[0] === true ? true : false;
 
-		//re-map short names to actual tag names, for convenience
-		// $name = preg_replace( array_keys( $mapNames ), array_values( $mapNames ), $name );
-
 		if ( ! empty( $this->supported_containers[$tag_name] ) ) {
 			if ( $append ) {
 				$class = $this->supported_containers[$tag_name];
