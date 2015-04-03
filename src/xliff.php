@@ -18,7 +18,7 @@ class Xliff_Node{
 		'originalData'  => 'Xliff_originalData',
 		'data'          => 'Xliff_Data',
 		'source'        => 'Xliff_Node',
-		'target'	    => 'Xliff_Node',
+		'target'        => 'Xliff_Node',
 	);
 
 
