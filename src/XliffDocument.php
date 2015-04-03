@@ -304,7 +304,7 @@ class Xliff_Document extends Xliff_Node {
 
 
 	/**
-	 * Convert in memory XLIFF representation to DOM representation
+	 * Convert in-memory XLIFF representation to DOMDocument
 	 * @return DOMDocument
 	 */
 	public function to_DOM(){
@@ -327,7 +327,7 @@ class Xliff_Document extends Xliff_Node {
 	}
 
 	/**
-	 * Build XliffDocument from DOMDocument
+	 * Build in-memory XLIFF representation from DOMDocument
 	 *
 	 * @param DOMDocument $doc
 	 * @throws Exception
