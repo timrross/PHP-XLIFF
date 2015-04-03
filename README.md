@@ -1,6 +1,8 @@
-# Xliff Parser for PHP #
+# PHP XLIFF Parser #
 
-This library help in the process of creating and navigating within an XLIFF document.
+A PHP library designed to help with reading and writing XLIFF documents. For more information on the current (as of April 2005) XLIFF specification, see:
+
+http://docs.oasis-open.org/xliff/xliff-core/v2.0/os/xliff-core-v2.0-os.html
 
 ## Usage Example ##
 
