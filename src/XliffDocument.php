@@ -299,8 +299,13 @@ class Xliff_Document extends Xliff_Node {
 	function __construct(){
 		parent::__construct();
 		$this->version = XLIFF_VER;
+		$this->srcLang = 'en-US';
 	}
 
+	public function set_lang_tag( $locale, $lang_tag_type = 'trgLang' ) {
+		$this->$lang_tag_type = $locale;
+		return $this;
+	}
 
 	/**
 	 * Convert in-memory XLIFF representation to DOMDocument
