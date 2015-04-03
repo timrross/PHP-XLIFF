@@ -291,9 +291,11 @@ class Xliff_Document extends Xliff_Node {
 	const XMLNS = 'urn:oasis:names:tc:xliff:document:';
 	const XLIFF_VER = '2.0';
 
-	protected $name = 'xliff';
+	protected $tag_name = 'xliff';
 	protected $supported_containers = array( 'file' => 'Xliff_File' );
 	protected $version;
+	protected $srcLang;
+	protected $trgLang;
 
 
 	function __construct(){
