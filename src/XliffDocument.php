@@ -285,8 +285,6 @@ class XliffNode{
 /**
  * Wrapper class for Xliff documents.
  * Externally, you'll want to use this class.
- *
- * @method Xliff_Document file() file()
  */
 class Xliff_Document extends Xliff_Node {
 	const XMLNS = 'urn:oasis:names:tc:xliff:document:';
@@ -309,7 +307,7 @@ class Xliff_Document extends Xliff_Node {
 	 */
 	public function to_DOM(){
 		$dom = new DOMDocument();
-		$doc->formatOutput = true;
+		$dom->formatOutput = true;
 
 		// create the root xliff element w/all children
 		$xliff_dom_element = $this->to_DOM_element( $dom );
@@ -317,10 +315,11 @@ class Xliff_Document extends Xliff_Node {
 		// set some attributes on the xliff element
 		$xliff_dom_element->setAttribute( 'xmlns', self::XMLNS . $this->version );
 		$xliff_dom_element->setAttribute( 'version', $this->version );
-		$xliff_dom_element->setAttribute( 'version', $this->version );
+		$xliff_dom_element->setAttribute( 'srcLang', $this->srcLang );
+		$xliff_dom_element->setAttribute( 'trgLang', $this->trgLang );
 
 		// append the whole enchilada to the DOM
-		$dom->appendChild( $xliff );
+		$dom->appendChild( $xliff_dom_element );
 
 		return $dom;
 
@@ -329,12 +328,12 @@ class Xliff_Document extends Xliff_Node {
 	/**
 	 * Build in-memory XLIFF representation from DOMDocument
 	 *
-	 * @param DOMDocument $doc
+	 * @param DOMDocument $dom
 	 * @throws Exception
-	 * @return XliffDocument
+	 * @return Xliff_Document
 	 */
 	public static function from_DOM( DOMDocument $dom ) {
-		if ( ! isset( $dom->documentElement ) || $dom->documentElement->tagName !== 'xliff' ) ) {
+		if ( ! isset( $dom->documentElement ) || $dom->documentElement->tagName !== 'xliff' ) {
 			throw new Exception( "Not an XLIFF document" );
 		}
 		return self::fromDOMElement( $dom->documentElement );
@@ -344,74 +343,103 @@ class Xliff_Document extends Xliff_Node {
 
 /**
  * Concrete class for file tag
- * 
- * @method XliffFileBody body()
- * @method XliffFileHeader header()
  */
-class XliffFile extends XliffNode{
-	protected $name = 'file';
-	protected $supportedNodes = array(
-		'header' 	=> 'XliffFileHeader',
-		'body' 		=> 'XliffFileBody',
+class Xliff_File extends Xliff_Node {
+	protected $tag_name = 'file';
+	protected $supported_containers = array(
+		'notes'     => 'Xliff_Notes',
+		'unit'      => 'Xliff_Unit',
+		'group'     => 'Xliff_Group',
 	);
-	
+	protected $supported_leaf_nodes = array(
+		'skeleton'  => 'Xliff_Skeleton',
+	);
 }
 
 /**
- * Concrete class for file header tag
- * @author oyagev
- *
+ * Concrete class for skeleton tag
  */
-class XliffFileHeader extends XliffNode{
-	protected $name = 'header';
+class Xliff_Skeleton extends Xliff_Node {
+	protected $tag_name = 'skeleton';
 }
-
 
 /**
- * Concrete class for file body tag
- * 
- * @method XliffUnitsGroup group()
- * @method XliffUnit unit()
- * @method array groups()
- * @method array units()
+ * Concrete class for Notes tag
  */
-class XliffFileBody extends XliffNode{
-	protected $name = 'body';
-	protected $supportedContainers = array(
-    	'groups'	=> 'XliffUnitsGroup',
-		'trans-units'		=> 'XliffUnit'
-    );
+class Xliff_Notes extends Xliff_Node {
+	protected $tag_name = 'body';
+	protected $supported_leaf_nodes = array(
+		'note'	=> 'Xliff_Note',
+	);
 }
 
+/**
+ * Concrete class for note tag
+ */
+class Xliff_Note extends Xliff_Node {
+	protected $tag_name = 'note';
+}
 
 /**
  * Concrete class for group tag
- * 
- * @method XliffUnit unit()
- * @method array units()
  */
-class XliffUnitsGroup extends XliffNode{
-	protected $name = 'group';
-	protected $supportedContainers = array(
-		'trans-units'		=> 'XliffUnit'
-    );
-}
-
-
-
-/**
- * Concrete class for trans-unit tag
- * 
- * @method XliffNode source()
- * @method XliffNode target()
- */
-class XliffUnit extends XliffNode{
-	protected $name = 'trans-unit';
-	protected $supportedNodes = array(
-		'source' => 'XliffNode',
-		'target' => 'XliffNode',
+class Xliff_Group extends Xliff_Node {
+	protected $tag_name = 'group';
+	protected $supported_containers = array(
+		'notes'  => 'Xliff_Notes',
+		'group'  => 'Xliff_Group',
+		'unit'   => 'Xliff_Unit',
 	);
 }
 
+/**
+ * Concrete class for unit tag
+ */
+class Xliff_Unit extends Xliff_Node {
+	protected $tag_name = 'unit';
+	protected $supported_containers = array(
+		'notes'         => 'Xliff_Notes',
+		'originalData'  => 'Xliff_originalData',
+		'segment'       => 'Xliff_Segment',
+		'ignorable'     => 'Xliff_Ignorable',
+	);
+}
 
+/**
+ * Concrete class for segment tag
+ */
+class Xliff_Segment extends Xliff_Node {
+	protected $tag_name = 'segment';
+	protected $supported_leaf_nodes = array(
+		'source'   => 'Xliff_Node',
+		'target'   => 'Xliff_Node',
+	);
+}
 
+/**
+ * Concrete class for ignorable tag
+ */
+class Xliff_Ignorable extends Xliff_Node {
+	protected $tag_name = 'ignorable';
+	protected $supported_leaf_nodes = array(
+		'source'   => 'Xliff_Node',
+		'target'   => 'Xliff_Node',
+	);
+}
+
+/**
+ * Concrete class for originalData tag
+ */
+class Xliff_originalData extends Xliff_Node {
+	protected $tag_name = 'originalData';
+	protected $supported_leaf_nodes = array(
+		'data'   => 'Xliff_Data',
+	);
+}
+
+/**
+ * Concrete class for data tag
+ */
+class Xliff_Data extends Xliff_Node {
+	protected $tag_name = 'data';
+}
