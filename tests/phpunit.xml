@@ -1,10 +1,10 @@
 <phpunit testdox="true" stop-on-failure="false" colors="true" bootstrap="bootstrap.php">
-        <testsuites>
-                <testsuite name="PHP-XLIFF Test Suite">
-                        <directory suffix=".php">tests</directory>
-                </testsuite>
-        </testsuites>
-        <logging>
-                <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
-        </logging>
+	<testsuites>
+		<testsuite name="PHP-XLIFF Test Suite">
+			<file>test-xliff-library.php</file>
+		</testsuite>
+	</testsuites>
+	<logging>
+		<log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
+	</logging>
 </phpunit>
