@@ -107,14 +107,14 @@ class Xliff_Node{
 	 * @throws Exception
 	 * @return XliffNode
 	 */
-	function setAttribute($name, $value){
-		/*if (!(string)$value){
-			throw new Exception("Attribute must be a string");
-		}*/
-		$this->attributes[$name] = trim((string)$value);
+	function set_attribute( $attribute_name, $value ) {
+		if ( ! is_string( $value ) && ! is_numeric( $value ) ) {
+			throw new Exception( 'Attribute must be text!' );
+		}
+		$this->attributes[$attribute_name] = trim( (string) $value );
 		return $this;
 	}
-	
+
 	/**
 	 * Set multiple attributes from a key=>value array
 	 * @param Array $attr_array
