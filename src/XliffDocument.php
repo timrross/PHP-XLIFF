@@ -222,7 +222,7 @@ class Xliff_Node{
 			$element->appendChild( $node->to_DOM_element( $dom ) );
 		}
 
-		$text = $this->get_text_content()
+		$text = $this->get_text_content();
 		if ( is_string( $text ) ) {
 			$text_node = $dom->createTextNode( $text );
 			$element->appendChild( $text_node );
