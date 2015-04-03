@@ -207,16 +207,19 @@ class Xliff_Node{
 			$element->setAttribute( $name, $value );
 		}
 
+		// build its immediate (leaf) children
+		foreach ( $this->leaf_nodes as $node ) {
+			$element->appendChild( $node->to_DOM_element( $dom ) );
+		}
+
+		// build tree structures below
 		foreach ( $this->containers as $container ){
 			foreach ( $container as $node ) {
 				$element->appendChild( $node->to_DOM_element( $dom ) );
 			}
 		}
 
-		foreach ( $this->leaf_nodes as $node ) {
-			$element->appendChild( $node->to_DOM_element( $dom ) );
-		}
-
+		// insert any text content into the element
 		$text = $this->get_text_content();
 		if ( is_string( $text ) ) {
 			$text_node = $dom->createTextNode( $text );
