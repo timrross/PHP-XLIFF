@@ -313,9 +313,9 @@ class Node
 
         // check if tag is supported
         if (self::$tag_name_to_class_mapping[$element->tagName]) {
-            $class = self::$tag_name_to_class_mapping[$element->tagName];
+            $class = '\\Timrross\\Xliff\\' . self::$tag_name_to_class_mapping[$element->tagName];
         } else {
-            $class = 'Node';
+            $class = '\\Timrross\\Xliff\\Node';
         }
 
         $xliff_node = new $class($element->tagName);
