@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit stop-on-failure="false"
+	colors="true"
+	bootstrap="tests/bootstrap.php"
+	verbose="true">
+	<testsuites>
+		<testsuite name="XLIFF Test Suite">
+
+			<directory suffix="Test.php">tests</directory>
+		</testsuite>
+
+		<filter>
+			<whitelist processUncoveredFilesFromWhitelist="true">
+				<directory suffix=".php">src</directory>
+			</whitelist>
+		</filter>
+
+	</testsuites>
+	<logging>
+		<log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
+	</logging>
+</phpunit>

@@ -6,12 +6,12 @@
  *
  */
 
-require dirname( __DIR__ ) . '/src/xliff.php';
+require dirname( __DIR__ ) . '/vendor/autoload.php';
 
 echo 'Generating new XLIFF document:' . PHP_EOL;
 
 // create a new top level xliff document element
-$xliff = new Xliff_Document();
+$xliff = new \Timrross\Xliff\Document();
 
 // set source and target locale ("lang") attributes
 $xliff->set_source_locale( 'en_US' );
