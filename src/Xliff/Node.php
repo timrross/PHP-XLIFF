@@ -237,7 +237,7 @@ class Node
      */
     public function __call($tag_name, $args)
     {
-        $append = is_array($args) && $args[0] === true ? true : false;
+        $append = is_array($args) && count($args) > 0 && $args[0] === true ? true : false;
 
         if (!empty($this->supported_containers[$tag_name])) {
             if ($append) {
